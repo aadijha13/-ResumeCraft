@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Builder</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+    <div class="app-container" id="app-container">
+        <div class="sidebar">
+            <div class="logo">
+                <i class="fas fa-file-alt"></i>
+                <h1>ResumeCraft</h1>
+            </div>
+            
+            <div class="resume-type-selector">
+                <h3>Select Resume Type</h3>
+                <div class="type-options">
+                    <button class="type-option active" data-type="job">
+                        <i class="fas fa-briefcase"></i> Job
+                    </button>
+                    <button class="type-option" data-type="student">
+                        <i class="fas fa-graduation-cap"></i> Student
+                    </button>
+                    <button class="type-option" data-type="marriage">
+                        <i class="fas fa-heart"></i> Marriage
+                    </button>
+                    <button class="type-option" data-type="cv">
+                        <i class="fas fa-file-contract"></i> CV
+                    </button>
+                    <button class="type-option" data-type="biodata">
+                        <i class="fas fa-user"></i> Biodata
+                    </button>
+                </div>
+            </div>
+            
+            <div class="template-options">
+                <h3>Select Template</h3>
+                <div class="template-thumbnails">
+                    <div class="template-thumbnail active" data-template="professional">
+                        <div class="thumbnail-preview pro-preview"></div>
+                        <span>Professional</span>
+                    </div>
+                    <div class="template-thumbnail" data-template="modern">
+                        <div class="thumbnail-preview modern-preview"></div>
+                        <span>Modern</span>
+                    </div>
+                    <div class="template-thumbnail" data-template="creative">
+                        <div class="thumbnail-preview creative-preview"></div>
+                        <span>Creative</span>
+                    </div>
+                    <div class="template-thumbnail" data-template="elegant">
+                        <div class="thumbnail-preview elegant-preview"></div>
+                        <span>Elegant</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="action-buttons">
+                <button id="new-resume"><i class="fas fa-file"></i> New</button>
+                <button id="save-resume"><i class="fas fa-save"></i> Save</button>
+                <button id="download-pdf"><i class="fas fa-download"></i> Download PDF</button>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <div class="resume-form">
+                <div class="form-header">
+                    <h2><i class="fas fa-edit"></i> Edit Your Resume</h2>
+                </div>
+                
+                <form id="resume-form">
+                    <div class="form-section personal-info">
+                        <div class="section-header">
+                            <h3><i class="fas fa-user"></i> Personal Information</h3>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="name">Full Name</label>
+                                <input type="text" id="name" placeholder="John Doe" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" placeholder="john@example.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone">Phone</label>
+                                <input type="tel" id="phone" placeholder="+1 234 567 890">
+                            </div>
+                            <div class="form-group">
+                                <label for="address">Address</label>
+                                <textarea id="address" rows="2" placeholder="123 Main St, City, Country"></textarea>
+                            </div>
+                            <div class="form-group" id="extra-field-1-container"></div>
+                            <div class="form-group" id="extra-field-2-container"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section" id="experience-section">
+                        <div class="section-header">
+                            <h3><i class="fas fa-briefcase"></i> Work Experience</h3>
+                            <button type="button" class="add-btn" data-section="experience">
+                                <i class="fas fa-plus"></i> Add
+                            </button>
+                        </div>
+                        <div id="experience-fields" class="dynamic-fields"></div>
+                    </div>
+                    
+                    <div class="form-section" id="education-section">
+                        <div class="section-header">
+                            <h3><i class="fas fa-graduation-cap"></i> Education</h3>
+                            <button type="button" class="add-btn" data-section="education">
+                                <i class="fas fa-plus"></i> Add
+                            </button>
+                        </div>
+                        <div id="education-fields" class="dynamic-fields"></div>
+                    </div>
+                    
+                    <div class="form-section" id="skills-section">
+                        <div class="section-header">
+                            <h3><i class="fas fa-tools"></i> Skills</h3>
+                            <button type="button" class="add-btn" data-section="skills">
+                                <i class="fas fa-plus"></i> Add
+                            </button>
+                        </div>
+                        <div id="skills-fields" class="dynamic-fields"></div>
+                    </div>
+                    
+                    <div class="form-section" id="custom-section-1"></div>
+                    <div class="form-section" id="custom-section-2"></div>
+                </form>
+            </div>
+            
+            <div class="resume-preview">
+                <div class="preview-header">
+                    <h2><i class="fas fa-eye"></i> Live Preview</h2>
+                    <div class="zoom-controls">
+                        <button id="zoom-out"><i class="fas fa-search-minus"></i></button>
+                        <span id="zoom-level">100%</span>
+                        <button id="zoom-in"><i class="fas fa-search-plus"></i></button>
+                    </div>
+                </div>
+                <div class="preview-container">
+                    <div id="resume-preview" class="resume-template professional"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
